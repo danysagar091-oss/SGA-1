@@ -1,0 +1,65 @@
+======================================
+  Q2: Secure Project Workspace Setup
+======================================
+
+COMMAND 1: cd q2 && mkdir -p secure_workspace/{docs,src,logs}
+Successfully created secure_workspace directory with subdirectories: docs, src, logs
+
+COMMAND 2: touch secure_workspace/docs/plan.txt secure_workspace/src/app.txt secure_workspace/logs/activity.log
+Created three empty files in respective directories:
+- secure_workspace/docs/plan.txt
+- secure_workspace/src/app.txt
+- secure_workspace/logs/activity.log
+
+COMMAND 3: ls -ld secure_workspace secure_workspace/*
+BEFORE PERMISSION CHANGES:
+drwxrwxrwx+ 5 codespace codespace 4096 Jul  3 13:41 secure_workspace
+drwxrwxrwx+ 2 codespace codespace 4096 Jul  3 13:42 secure_workspace/docs
+drwxrwxrwx+ 2 codespace codespace 4096 Jul  3 13:42 secure_workspace/logs
+drwxrwxrwx+ 2 codespace codespace 4096 Jul  3 13:42 secure_workspace/src
+
+Initial permissions show wide-open access (777) for all directories, which is insecure.
+
+COMMAND 4: chmod 750 secure_workspace
+Changed secure_workspace directory permissions to 750 (rwxr-x---)
+
+COMMAND 5: chmod 750 secure_workspace/docs secure_workspace/src secure_workspace/logs
+Changed all subdirectories permissions to 750 (rwxr-x---)
+
+COMMAND 6: chmod 640 secure_workspace/docs/plan.txt secure_workspace/src/app.txt secure_workspace/logs/activity.log
+ERROR: chmod: cannot access 'secure_workspace/logs/activity': No such file or directory
+Note: The command had a typo - it tried to chmod activity instead of activity.log
+
+COMMAND 7: ls -ld secure_workspace secure_workspace/*
+AFTER PERMISSION CHANGES:
+drwxr-x---+ 5 codespace codespace 4096 Jul  3 13:41 secure_workspace
+drwxr-x---+ 2 codespace codespace 4096 Jul  3 13:42 secure_workspace/docs
+drwxr-x---+ 2 codespace codespace 4096 Jul  3 13:42 secure_workspace/logs
+drwxr-x---+ 2 codespace codespace 4096 Jul  3 13:42 secure_workspace/src
+
+Directories now have 750 permissions restricting access to owner and group only.
+
+COMMAND 8: ls -l secure_workspace/*
+secure_workspace/docs:
+total 0
+-rw-r----- 1 codespace codespace 0 Jul  3 13:42 plan.txt
+
+secure_workspace/logs:
+total 0
+-rw-rw-rw- 1 codespace codespace 0 Jul  3 13:42 activity.log
+
+secure_workspace/src:
+total 0
+-rw-r----- 1 codespace codespace 0 Jul  3 13:42 app.txt
+
+Files have mixed permissions:
+- plan.txt: 640 (rw-r-----)
+- app.txt: 640 (rw-r-----)
+- activity.log: 666 (rw-rw-rw-) - This one was not chmod'd due to typo
+
+COMMAND 9: umask
+0022
+
+The umask value 0022 means:
+- Default file permissions: 644 (666 - 022)
+- Default directory permissions: 755 (777 - 022)

@@ -1,0 +1,93 @@
+======================================
+  Q3: File System and Link Analysis
+======================================
+
+COMMAND 1: cd q3 && rm -f original.txt hardlink.txt symlink.txt
+Cleaned up any existing files from previous runs.
+
+COMMAND 2: echo "Linux link test file" > original.txt
+Created original.txt with content: "Linux link test file"
+
+COMMAND 3: ln original.txt hardlink.txt
+Created a hard link named hardlink.txt pointing to the same inode as original.txt
+
+COMMAND 4: ln -s original.txt symlink.txt
+Created a symbolic (soft) link named symlink.txt that points to the filename "original.txt"
+
+COMMAND 5: ls -li
+total 8
+1310805 -rw-rw-rw- 2 codespace codespace 21 Jul  3 13:46 hardlink.txt
+1310805 -rw-rw-rw- 2 codespace codespace 21 Jul  3 13:46 original.txt
+1310806 lrwxrwxrwx 1 codespace codespace 12 Jul  3 13:46 symlink.txt -> original.txt
+
+KEY OBSERVATIONS:
+- original.txt and hardlink.txt have the SAME inode number (1310805)
+- symlink.txt has a DIFFERENT inode number (1310806)
+- hardlink.txt shows "2" in links column (2 links to inode 1310805)
+- symlink.txt shows "1" in links column (1 link)
+- symlink.txt displays with "lrwxrwxrwx" (symbolic link permissions)
+
+COMMAND 6: stat original.txt hardlink.txt symlink.txt
+
+File: original.txt
+  Size: 21              Blocks: 8          IO Block: 4096   regular file
+Device: 7,4     Inode: 1310805     Links: 2
+Access: (0666/-rw-rw-rw-)  Uid: ( 1000/codespace)   Gid: ( 1000/codespace)
+Access: 2026-07-03 13:46:14.620718067 +0000
+Modify: 2026-07-03 13:46:14.620718067 +0000
+Change: 2026-07-03 13:46:25.911718721 +0000
+
+File: hardlink.txt
+  Size: 21              Blocks: 8          IO Block: 4096   regular file
+Device: 7,4     Inode: 1310805     Links: 2
+Access: (0666/-rw-rw-rw-)  Uid: ( 1000/codespace)   Gid: ( 1000/codespace)
+Access: 2026-07-03 13:46:14.620718067 +0000
+Modify: 2026-07-03 13:46:14.620718067 +0000
+Change: 2026-07-03 13:46:25.911718721 +0000
+
+File: symlink.txt -> original.txt
+  Size: 12              Blocks: 0          IO Block: 4096   symbolic link
+Device: 7,4     Inode: 1310806     Links: 1
+Access: (0777/lrwxrwxrwx)  Uid: ( 1000/codespace)   Gid: ( 1000/codespace)
+Access: 2026-07-03 13:46:48.466720027 +0000
+Modify: 2026-07-03 13:46:37.771719408 +0000
+Change: 2026-07-03 13:46:37.771719408 +0000
+
+KEY FINDINGS:
+- Both original.txt and hardlink.txt have identical inode (1310805) and metadata
+- Symlink.txt has different inode (1310806) and smaller size (12 bytes - stores the link path)
+- Symlink has size 12 because it stores the path "original.txt" (12 characters)
+- All timestamps identical for hard link (same inode = same metadata)
+
+COMMAND 7: cat original.txt
+Linux link test file
+
+COMMAND 8: cat hardlink.txt
+Linux link test file
+
+COMMAND 9: cat symlink.txt
+Linux link test file
+
+All three files can read the same content.
+
+COMMAND 10: rm original.txt
+Deleted the original.txt file.
+
+COMMAND 11: ls -li
+total 4
+1310805 -rw-rw-rw- 1 codespace codespace 21 Jul  3 13:46 hardlink.txt
+1310806 lrwxrwxrwx 1 codespace codespace 12 Jul  3 13:46 symlink.txt -> original.txt
+
+After deletion:
+- hardlink.txt still exists with inode 1310805, link count reduced to 1
+- symlink.txt still exists but now points to non-existent file (broken link)
+
+COMMAND 12: cat hardlink.txt
+Linux link test file
+
+The hard link can still access the file content because the inode still exists in the filesystem.
+
+COMMAND 13: cat symlink.txt
+cat: symlink.txt: No such file or directory
+
+The symbolic link is now broken because the target filename doesn't exist anymore.

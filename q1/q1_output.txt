@@ -1,0 +1,47 @@
+======================================
+  Q1: Environment Verification
+======================================
+
+COMMAND 1: whoami
+codespace
+
+COMMAND 2: groups
+codespace pipx python oryx golang docker sdkman rvm php conda nvs nvm hugo ssh
+
+COMMAND 3: echo "$SHELL"
+/bin/bash
+
+COMMAND 4: pwd
+/
+
+COMMAND 5: ls -ls (showing filesystem root)
+total 88
+0 lrwxrwxrwx    1 root      root      7 Apr 22  2024 bin -> usr/bin
+4 drwxr-xr-x    2 root      root   4096 Jul 10  2025 bin.usr-is-merged
+4 drwxr-xr-x    2 root      root   4096 Apr 22  2024 boot
+0 drwxr-xr-x   13 root      root   3940 Jul  3 08:09 dev
+8 drwxr-xr-x    1 root      root   4096 Jul  3 13:27 etc
+4 drwxrwsr-x    3 codespace golang 4096 Apr  6 00:22 go
+8 drwxr-xr-x    1 root      root   4096 Jul  3 08:09 home
+0 lrwxrwxrwx    1 root      root      7 Apr 22  2024 lib -> usr/lib
+4 drwxr-xr-x    2 root      root   4096 Nov 14  2024 lib.usr-is-merged
+0 lrwxrwxrwx    1 root      root      9 Mar 11 11:59 lib32 -> usr/lib32
+0 lrwxrwxrwx    1 root      root      9 Apr 22  2024 lib64 -> usr/lib64
+4 drwxr-xr-x    2 root      root   4096 Feb 10 14:05 media
+4 drwxr-xr-x    2 root      root   4096 Feb 10 14:05 mnt
+4 drwxrwsr-x    1 codespace oryx   4096 Jul  3 08:09 opt
+0 dr-xr-xr-x  240 root      root      0 Jul  3 08:09 proc
+4 drwxr-xr-x    2 root      root   4096 Mar 11 12:16 root
+4 drwxr-xr-x    1 root      root   4096 Jul  3 08:09 run
+0 lrwxrwxrwx    1 root      root      8 Apr 22  2024 sbin -> usr/sbin
+4 drwxr-xr-x    2 root      root   4096 Jul 10  2025 sbin.usr-is-merged
+4 drwxr-xr-x    2 root      root   4096 Feb 10 14:05 srv
+0 dr-xr-xr-x   12 root      root      0 Jul  3 07:50 sys
+4 drwxr-xr-x    2 root      root   4096 Feb 10 14:05 tmp
+8 drwxr-xr-x    1 root      root   4096 Mar 11 11:59 usr
+8 drwxr-xr-x    1 root      root   4096 Jul  3 08:09 var
+4 drwxr-xr-x    5 root      root   4096 Jul  3 08:07 vscode
+4 drwxrwx+   5 codespace root   4096 Jul  3 13:27 workspaces
+
+COMMAND 6: curl -s --max-time 10 https://gemini.com > /dev/null && echo "Network: gemini.com reachable"
+Network: gemini.com reachable
